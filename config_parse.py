@@ -2,13 +2,18 @@ __author__ = 'Zachary Hill'
 
 import re
 
+# Define list of regular expression searches that are terrible or cause for concern.
+########################################################################################################################
 bad_configs = [
     r'Total output drops: \d+',  # Search for interface drops
     r'transport input telnet|transport input all',  # Search for telnet enabled devices
     r'^ip http server',  # Search for http enabled devices
     r'^ip http secure-server',  # Search for https enabled devices
-    r'password 7',  # Search for cisco encrypted passwords
+    r'^.*password 7',  # Search for cisco encrypted passwords
     r'Half-duplex',  # Search for half-duplex interfaces
+    r'ip ssh version 1',  # Search for ssh version less than 2
+    r'permit ip any any',  # Search for bad access lists
+    r'dhcp',  # Search for DHCP servers
 ]
 
 # TODO grab user argv for special flags to run
@@ -24,14 +29,8 @@ def assessment_parse(line, regex):
 
 
 # TODO create regex to search each line for various bad things
-# dropped packets
-# telnet
-# ip http server
-# ip http secure-server
-# ssh version
 # single uplinks
 # old version
-# old password
 # bad routing
 # statically set interfaces
 # excessive ACLs
