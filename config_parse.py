@@ -45,12 +45,6 @@ def file_open(file):
     with open(file) as read_file:
         for line in read_file:
             assessment_parse(line, bad_configs)
-            # dropped_packets_parse(line)
-            # telnet_parse(line)
-            # http_parse(line)
-            # https_parse(line)
-            # old_password_parse(line)
-            # duplex_parse(line)
 
 
 # TODO output the searches to an output file
