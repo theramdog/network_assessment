@@ -1,6 +1,8 @@
 __author__ = 'Zachary Hill'
 
 import re
+import os
+from sys import argv
 
 # Define list of regular expression searches that are terrible or cause for concern.
 ########################################################################################################################
@@ -13,7 +15,7 @@ bad_configs = [
     r'Half-duplex',  # Search for half-duplex interfaces
     r'ip ssh version 1',  # Search for ssh version less than 2
     r'permit ip any any',  # Search for bad access lists
-    r'dhcp',  # Search for DHCP servers
+    r'ip dhcp pool',  # Search for DHCP servers
 ]
 
 # TODO grab user argv for special flags to run
@@ -40,6 +42,14 @@ def assessment_parse(line, regex):
 # Should search through the lines, add the interface name to a list if it is trunked.
 
 # TODO open the files in a directory and punt it over to the regex searches
+def find_files(directory, filetype):
+    all_files_list = []
+    for dirpath, dirnames, filenames in os.walk(directory):
+        for filename in [f for f in filenames if f.endswith(filetype)]:
+            all_files_list.append(os.path.join(dirpath, filename))
+    return all_files_list
+
+
 def file_open(file):
     with open(file) as read_file:
         for line in read_file:
@@ -48,6 +58,16 @@ def file_open(file):
 
 # TODO output the searches to an output file
 
+
+def main():
+    list_of_files = find_files(argv[1], argv[2])
+    for input_filename in list_of_files:
+        print('Checking file: {0}'.format(input_filename))
+        file_open(input_filename)
+
+
+#if __name__ == '__main__':
+#    main()
 
 # Testing
 ########################################################################################################################
