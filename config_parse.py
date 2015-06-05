@@ -3,6 +3,7 @@ __author__ = 'Zachary Hill'
 import re
 import os
 from sys import argv
+import pprint
 
 # TODO Move this to a YAML or JSON file
 # Define list of regular expression searches that are terrible or cause for concern.
@@ -74,13 +75,13 @@ def config_match_cleanup(match_list):
 def main():
     list_of_files = find_files(argv[1], argv[2])
     for input_filename in list_of_files:
-        print('Checking file: {0}'.format(input_filename))
-        file_open(input_filename)
+        pprint.pprint('Checking file: {0}'.format(input_filename))
+        pprint.pprint(file_open(input_filename))
 
 
-#if __name__ == '__main__':
-#    main()
+if __name__ == '__main__':
+    main()
 
 # Testing
 ########################################################################################################################
-print(file_open('2015-05-18-10.7.7.10-octobase-putty.log'))
+# print(file_open('2015-05-18-10.7.7.10-octobase-putty.log'))
