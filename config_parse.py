@@ -25,6 +25,7 @@ bad_configs = [
 
 
 def assessment_parse(line, regex):
+    """Checks whether or not line has a match, if it does returns all matches in the line."""
     for item in regex:
         if re.search(item, line) is None:
             pass
@@ -45,6 +46,9 @@ def assessment_parse(line, regex):
 
 # TODO open the files in a directory and punt it over to the regex searches
 def find_files(directory, filetype):
+    """Searches a directory and sub-directories for all filenames with the specified filetype. Returns a list of
+    filenames within those directories.
+    """
     all_files_list = []
     for dirpath, dirnames, filenames in os.walk(directory):
         for filename in [f for f in filenames if f.endswith(filetype)]:
@@ -53,6 +57,7 @@ def find_files(directory, filetype):
 
 
 def file_open(file):
+    """Takes input file, opens it, reads it line by line, then parses with regexes. Returns a list of any matches."""
     all_config_matches = []
     with open(file) as read_file:
         for line in read_file:
@@ -62,6 +67,7 @@ def file_open(file):
 
 
 def config_match_cleanup(match_list):
+    """Takes a list full of None's and actual data, returns a list without None entries."""
     cleaned_list = []
     for item in match_list:
         if item is not None:
@@ -73,6 +79,9 @@ def config_match_cleanup(match_list):
 
 
 def main():
+    """Takes command line arguments of <directory> <filetype> then searches for all files with that filetype. Returns
+    a list of bad configurations.
+    """
     list_of_files = find_files(argv[1], argv[2])
     for input_filename in list_of_files:
         pprint.pprint('Checking file: {0}'.format(input_filename))
