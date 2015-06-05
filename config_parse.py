@@ -4,6 +4,7 @@ import re
 import os
 from sys import argv
 
+# TODO Move this to a YAML or JSON file
 # Define list of regular expression searches that are terrible or cause for concern.
 ########################################################################################################################
 bad_configs = [
@@ -27,7 +28,7 @@ def assessment_parse(line, regex):
         if re.search(item, line) is None:
             pass
         else:
-            print(re.findall(item, line))
+            return re.findall(item, line)
 
 
 # TODO create regex to search each line for various bad things
@@ -51,9 +52,20 @@ def find_files(directory, filetype):
 
 
 def file_open(file):
+    all_config_matches = []
     with open(file) as read_file:
         for line in read_file:
-            assessment_parse(line, bad_configs)
+            all_config_matches.append(assessment_parse(line, bad_configs))
+    cleaned_list = config_match_cleanup(all_config_matches)
+    return cleaned_list
+
+
+def config_match_cleanup(match_list):
+    cleaned_list = []
+    for item in match_list:
+        if item is not None:
+            cleaned_list.append(item)
+    return cleaned_list
 
 
 # TODO output the searches to an output file
@@ -71,4 +83,4 @@ def main():
 
 # Testing
 ########################################################################################################################
-file_open('2015-05-18-10.7.7.10-octobase-putty.log')
+print(file_open('2015-05-18-10.7.7.10-octobase-putty.log'))
